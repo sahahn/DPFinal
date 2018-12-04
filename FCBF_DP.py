@@ -17,17 +17,17 @@ class FCBF:
     
     idx_sel = []
     
-    def __init__(self, n_noise, epsilon_i, th=.01):
+    def __init__(self, n, epsilon_i, th=.01):
         '''
         Parameters
         ---------------
-            n_noise = Noisy count of data entires
+            n = num data entries
             epsilon_i = The indv epsilon value to be used for each calculate entropy cost
             th = The initial threshold
         '''
         
         self.th = th
-        self.n_noise = n_noise
+        self.n = n
         self.epsilon_i = epsilon_i
         self.seen_SUs = {}
         self.seen_singleEntropies = {}
@@ -47,14 +47,14 @@ class FCBF:
             seen_y = np.sum(y)
             
             if seen_x not in self.seen_singleEntropies:
-                self.seen_singleEntropies[seen_x] = laplace_mech(self.entropy(x), np.log2(self.n_noise)/
-                                                     self.n_noise, self.epsilon_i)
+                self.seen_singleEntropies[seen_x] = laplace_mech(self.entropy(x), np.log2(self.n)/
+                                                     self.n, self.epsilon_i)
                 
                 self.cnt += 1
                 
             if seen_y not in self.seen_singleEntropies:
-                self.seen_singleEntropies[seen_y] = laplace_mech(self.entropy(y), np.log2(self.n_noise)/
-                                                     self.n_noise, self.epsilon_i)
+                self.seen_singleEntropies[seen_y] = laplace_mech(self.entropy(y), np.log2(self.n)/
+                                                     self.n, self.epsilon_i)
                 
                 self.cnt += 1
                 
@@ -72,7 +72,7 @@ class FCBF:
 
             Hxy = np.sum(py[py > 0]*partial)
             
-            Hxy_noise = laplace_mech(Hxy, np.log2(self.n_noise)/self.n_noise, self.epsilon_i)
+            Hxy_noise = laplace_mech(Hxy, np.log2(self.n)/self.n, self.epsilon_i)
             self.cnt += 1
 
             IG = Hx_noise-Hxy_noise

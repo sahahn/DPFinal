@@ -8,7 +8,6 @@ Created on Mon Nov 19 11:57:36 2018
 
 from FCBF_DP import FCBF
 import networkx as nx
-from utils import laplace_mech
 from config import config
 import numpy as np
 
@@ -35,14 +34,19 @@ def split_data(sample, ind):
 
 def learn_structure(sample, unique_vals):
     
-    n_noise = laplace_mech(len(sample[0]), 1, config['epsilon_nt'])
-    m = len(sample)
+
+    m = config['num_features']
     
-    epsilon_i = (config['epsilon'] - config['epsilon_nt']) / (2 * np.sqrt(m**2 + m) * np.sqrt(np.log(1/config['delta'])))
+    if config['gen_delta'] == 0:
+        delta = config['delta']
+    else:
+        delta = config['delta'] / 3
+   
+    epsilon_i = config['struct_epsilon'] / (2 * np.sqrt((m**2 + m)) * np.sqrt(np.log(1/delta))) #Using 3/delta, as total cost delta/3 here
     
     G = nx.DiGraph()
     
-    fcbf = FCBF(n_noise, epsilon_i, config['struct_threshold'])
+    fcbf = FCBF(config['n'], epsilon_i, config['struct_threshold'])
 
     arr = np.arange(len(sample))
     np.random.shuffle(arr)

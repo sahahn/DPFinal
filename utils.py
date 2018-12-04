@@ -23,6 +23,9 @@ def laplace_mech(v, sensitivity, epsilon):
 def laplace_mech_vec(v, sensitivity, epsilon):
     return v + np.random.laplace(loc=0, scale=sensitivity / epsilon, size=len(v))
 
+def gaussian_mech_zcdp(v, sensitivity, rho):
+    return v + np.random.normal(loc=0, scale=sensitivity / np.sqrt(2*rho))
+
 def load_data():
     raw_data = pd.read_csv(config['csv_file'])
     
