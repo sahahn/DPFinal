@@ -67,16 +67,17 @@ def generate_fake_data(data, order, parents, count_dicts, unique_vals):
     resample_order = order[-config['omega']:]
     
     print('generating samples')
+
+    seed_inds = np.random.choice(np.arange(len(options)), config['num_to_generate'], p=list(seed_probs))
     
-    while len(to_release) < config['num_to_generate']:
-        seed_indx = np.random.choice(np.arange(len(options)), p=list(seed_probs))
-        seed = options[seed_indx]
+    for s_i in seed_inds:
         
+        seed = options[s_i]
         fake = []
         
         for j in seed:
             fake.append(j)
-            
+
         for i in resample_order:
     
             p = parents[i]
@@ -96,16 +97,17 @@ def generate_fake_data(data, order, parents, count_dicts, unique_vals):
             new_val = np.random.choice(unique_vals[i], p=list(probs))
     
             fake.append(new_val)
-        
+
         #Put canidate back into normal order
         fake_re = [fake[order.index(i)] for i in range(len(data))]
         to_release.append(fake_re)
         
         if len(to_release) % 1000 == 0:
            print(len(to_release))
-            
+        
     return to_release
 
+#Legacy stuff
 def k_check(fake, c_dict):
     
     entry = []
