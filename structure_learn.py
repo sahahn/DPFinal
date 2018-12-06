@@ -37,10 +37,11 @@ def learn_structure(sample, unique_vals):
 
     m = config['num_features']
     
+    #IF composed with sequential comp, can use all of the total delta budget here
     if config['gen_delta'] == 0:
         delta = config['delta']
     else:
-        delta = config['delta'] / 3
+        delta = config['delta'] * config['delta_struct_split']
    
     epsilon_i = config['struct_epsilon'] / (2 * np.sqrt((m**2 + m)) * np.sqrt(np.log(1/delta))) #Using 3/delta, as total cost delta/3 here
     

@@ -23,21 +23,27 @@ config['specs'] = 'fire-data-specs.json'
 config['drop_na'] = True
 config['bins'] = 20
 
+config['total_epsilon'] = 1
+config['eps_struct_split'] = .5  #%of eps. budget to spend on structure learning
+config['delta_struct_split'] = .3 #%of delta budget to spend on structure learning
+
 #Set delta relative to size of training dataset
 config['full_dataset_size'] = 305133
 config['n'] = int(config['full_dataset_size'] * (1 - config['test_size']))
 config['delta'] = (1 / (config['n'] ** 2))
+
+print(config['n'])
 
 config['num_features'] = 27
 
 #Configs for learning structure
 config['struct_threshold'] = .1
 config['max_struct_cost'] = 500
-config['struct_epsilon'] = 100
+config['struct_epsilon'] = config['total_epsilon'] * config['eps_struct_split']
 
 #Configs for generating conditional marginal and fake data
-config['gen_epsilon'] = 400
-config['omega'] = 22
+config['gen_epsilon'] = config['total_epsilon'] * (1 - config['eps_struct_split'])
+config['omega'] = 21
 config['zCDP'] = True
 
 #Number of sampels to generate
@@ -47,7 +53,7 @@ config['num_to_generate'] = 50000
 config['k'] = 5
 
 #For adv comp version use 2/3 of delta budget
-config['gen_delta'] = 2*config['delta']/3
+config['gen_delta'] = config['delta'] * (1 - config['delta_struct_split'])
 
 #Compute relevant params based on config settings
 def opt(x, delta=config['gen_delta'], epsilon=config['gen_epsilon']):
