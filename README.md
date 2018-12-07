@@ -2,11 +2,11 @@
 
 This directory is dedicated to code used for my Data Privacy final project. Generating Differentially Private Synthetic Data.
 
--The Main script is within the notebook "Gen_Synthetic_Data", while all of the hyperparameters are present within 'config.py'. 
+-The Main script is within the notebook "Gen_Synthetic_Data", while all of the hyperparameters and privacy composition are present within 'config.py'. 
 
--Likewise, "old_synthetic_data" and "old_config" represent, you guessed it, older versions of both files created before a majot project shift. They should essentially be ignored, I do not know why I don't delete them.
+-Likewise, "old_synthetic_data" and "old_config" represent, you guessed it, older versions of both files created before a major project shift. They should essentially be ignored, I do not know why I don't delete them.
 
--Notebooks plots and Analysis are used to evaluate synthetic data and to create visualizations of thosee results.
+-Jupyter Notebook: Plots and Analysis, are used to evaluate synthetic data and to create visualizations of thosee results.
 
 -FCBF_DP.py is a DP implementation of Fast correlation based filter.
 
